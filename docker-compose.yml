@@ -1,11 +1,30 @@
 services:
   postgres:
     image: postgres
+    networks:
+      - bookbuy
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+  pgAdmin:
+    image: dpage/pgadmin4
+    networks:
+      - bookbuy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 80:80
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+networks:
+  bookbuy:
+    driver: bridge
+
 volumes:
   pgdata:
+  pgadmin-data:  
