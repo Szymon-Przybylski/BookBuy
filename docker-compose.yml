@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: postgres
     image: postgres
     networks:
       - bookbuy
@@ -9,17 +10,48 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+
   pgAdmin:
+    container_name: pgAdmin  
     image: dpage/pgadmin4
     networks:
       - bookbuy
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - 80:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+
+  mongodb:
+    container_name: mongo  
+    image: mongo
+    networks:
+      - bookbuy
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+  mongoExpress:
+    container_name: mongoExpress  
+    image: mongo-express
+    networks:
+      - bookbuy
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin 
+    ports:
+      - 8081:8081
+    volumes:
+      - mongoExpressData:/data/
 
 networks:
   bookbuy:
@@ -27,4 +59,6 @@ networks:
 
 volumes:
   pgdata:
-  pgadmin-data:  
+  pgadmin-data:
+  mongodata:
+  mongoExpressData:  
