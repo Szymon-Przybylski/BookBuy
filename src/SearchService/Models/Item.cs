@@ -7,7 +7,7 @@ namespace SearchService.Models
         // Auction data
         public int ReservePrice { get; set; }
         public required string Seller { get; set; }
-        public string? Winner { get; set; }
+        public string Winner { get; set; }
         public int SoldAmount { get; set; }
         public int CurrentHighestBid { get; set; }
         public int MyProperty { get; set; }

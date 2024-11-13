@@ -72,7 +72,7 @@ namespace AuctionService.Controllers
 
             auction.Item.Author = updateAuctionDto.Author ?? auction.Item.Author;
             auction.Item.Name = updateAuctionDto.Name ?? auction.Item.Name;
-            auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
+            auction.Item.Year = (int)(updateAuctionDto.Year ?? updateAuctionDto.Year);
 
             var result = await _context.SaveChangesAsync() > 0;
             if (result) return Ok();
