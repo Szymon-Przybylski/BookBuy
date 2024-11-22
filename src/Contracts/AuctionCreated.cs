@@ -1,10 +1,15 @@
-﻿using MongoDB.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SearchService.Models
+namespace Contracts
 {
-    public class Item : Entity
+    public class AuctionCreated
     {
         // Auction data
+        public Guid Id { get; set; }
         public int ReservePrice { get; set; }
         public string Seller { get; set; }
         public string Winner { get; set; }

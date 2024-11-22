@@ -3,6 +3,8 @@ using AuctionService.DTOs;
 using AuctionService.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts;
+using MassTransit;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +17,13 @@ namespace AuctionService.Controllers
     {
         private readonly AuctionDatabaseContext _context;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AuctionsController(AuctionDatabaseContext context, IMapper mapper) 
+        public AuctionsController(AuctionDatabaseContext context, IMapper mapper, IPublishEndpoint publishEndpoint) 
         {
             _context = context;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet]
@@ -33,6 +37,7 @@ namespace AuctionService.Controllers
 
             return await query.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<AuctionDto>> GetAuctionById (Guid id)
         {
@@ -57,13 +62,19 @@ namespace AuctionService.Controllers
 
             bool result = await _context.SaveChangesAsync() > 0;
 
+            var newAuction = _mapper.Map<AuctionDto>(auction);
+
+            await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
+
             if (!result) return BadRequest("Could not save changes to the database");
+
             return CreatedAtAction(
                 nameof(GetAuctionById),
                 new {auction.Id},
-                _mapper.Map<AuctionDto>(auction)
+                newAuction
                 );
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto)
         {
