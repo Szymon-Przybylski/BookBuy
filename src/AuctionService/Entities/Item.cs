@@ -6,10 +6,10 @@ namespace AuctionService.Entities
     public class Item
     {
         public Guid Id { get; set; }
-        public required string Name { get; set; }
-        public required string Author { get; set; }
-        public required int Year { get; set; }
-        public required string ImageUrl { get; set; }
+        public string Name { get; set; }
+        public string Author { get; set; }
+        public int Year { get; set; }
+        public string ImageUrl { get; set; }
 
         //nav properties
         public Auction Auction { get; set; }

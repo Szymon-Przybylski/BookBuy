@@ -32,6 +32,7 @@ namespace SearchService.Controllers
                 "endingSoon" => query.Match
                     (x => x.AuctionEndingAt < DateTime.UtcNow.AddHours(6) && x.AuctionEndingAt > DateTime.UtcNow),
                 _ => query.Match(x => x.AuctionEndingAt >= DateTime.UtcNow || x.AuctionEndingAt < DateTime.UtcNow)
+
                 // TODO: change later when real data is being used
                 //_ => query.Match(x => x.AuctionEndingAt > DateTime.UtcNow)
 
