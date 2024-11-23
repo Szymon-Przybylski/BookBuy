@@ -26,6 +26,12 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, configuration) =>
     {
+        configuration.ReceiveEndpoint("search-service-auction-created", e =>
+        {
+            e.UseMessageRetry(r => r.Interval(5, 5));
+            e.ConfigureConsumer<AuctionCreatedConsumer>(context);
+        });
+
         configuration.ConfigureEndpoints(context);
     });
 });

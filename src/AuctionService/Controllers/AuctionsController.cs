@@ -60,19 +60,15 @@ namespace AuctionService.Controllers
 
             _context.Auctions.Add(auction);
 
-            bool result = await _context.SaveChangesAsync() > 0;
-
             var newAuction = _mapper.Map<AuctionDto>(auction);
 
             await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
 
+            bool result = await _context.SaveChangesAsync() > 0;
+
             if (!result) return BadRequest("Could not save changes to the database");
 
-            return CreatedAtAction(
-                nameof(GetAuctionById),
-                new {auction.Id},
-                newAuction
-                );
+            return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, newAuction);
         }
 
         [HttpPut("{id}")]
