@@ -84,7 +84,10 @@ namespace AuctionService.Controllers
             auction.Item.Name = updateAuctionDto.Name ?? auction.Item.Name;
             auction.Item.Year = (int)(updateAuctionDto.Year ?? updateAuctionDto.Year);
 
+            await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+
             var result = await _context.SaveChangesAsync() > 0;
+
             if (result) return Ok();
 
             return BadRequest("Auction Update failed");
@@ -94,11 +97,14 @@ namespace AuctionService.Controllers
         public async Task<ActionResult> DeleteAuction(Guid id)
         {
             var auction = await _context.Auctions.FindAsync(id);
+
             if (auction == null) return NotFound();
 
             // check seller identity
 
             _context.Auctions.Remove(auction);
+
+            await _publishEndpoint.Publish<AuctionDeleted>(new AuctionDeleted { Id = auction.Id.ToString() });
 
             var result = await _context.SaveChangesAsync() > 0;
 
