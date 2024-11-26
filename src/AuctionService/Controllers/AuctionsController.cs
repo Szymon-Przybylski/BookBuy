@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -50,13 +51,13 @@ namespace AuctionService.Controllers
             return _mapper.Map<AuctionDto>(auction);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto)
         {
             var auction = _mapper.Map<Auction>(auctionDto);
 
-            //todo add current user as seller
-            auction.Seller = "Test";
+            auction.Seller = User.Identity.Name;
 
             _context.Auctions.Add(auction);
 
@@ -71,6 +72,7 @@ namespace AuctionService.Controllers
             return CreatedAtAction(nameof(GetAuctionById), new {auction.Id}, newAuction);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDto updateAuctionDto)
         {
@@ -78,7 +80,7 @@ namespace AuctionService.Controllers
                 .FirstOrDefaultAsync(x => x.Id == id);
             if(auction == null) return NotFound();
 
-            // check seller  identity
+            if(auction.Seller != User.Identity.Name) return Forbid();
 
             auction.Item.Author = updateAuctionDto.Author ?? auction.Item.Author;
             auction.Item.Name = updateAuctionDto.Name ?? auction.Item.Name;
@@ -93,6 +95,7 @@ namespace AuctionService.Controllers
             return BadRequest("Auction Update failed");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAuction(Guid id)
         {
@@ -100,7 +103,7 @@ namespace AuctionService.Controllers
 
             if (auction == null) return NotFound();
 
-            // check seller identity
+            if (auction.Seller != User.Identity.Name) return Forbid();
 
             _context.Auctions.Remove(auction);
 
