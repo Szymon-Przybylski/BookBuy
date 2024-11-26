@@ -21,10 +21,10 @@ namespace SearchService.Consumers
 
             var item = _mapper.Map<Item>(context.Message);
 
-            if (item.Name == "NotBook")
+            /*if (item.Name == "NotBook")
             {
                 throw new ArgumentException("Cannot accept items other than book");
-            }
+            }*/
 
             await item.SaveAsync();
         }
