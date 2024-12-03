@@ -2,46 +2,34 @@ services:
   postgres:
     container_name: postgres
     image: postgres
-    networks:
-      - bookbuy
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
 
   pgAdmin:
     container_name: pgAdmin  
     image: dpage/pgadmin4
-    networks:
-      - bookbuy
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - 80:80
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
 
   mongodb:
     container_name: mongo  
     image: mongo
-    networks:
-      - bookbuy
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
     ports:
       - 27017:27017
-    volumes:
-      - mongodata:/data/db
 
   mongoExpress:
     container_name: mongoExpress  
     image: mongo-express
-    networks:
-      - bookbuy
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongo
       - ME_CONFIG_BASICAUTH_USERNAME=admin
@@ -50,27 +38,76 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=admin 
     ports:
       - 8081:8081
-    volumes:
-      - mongoExpressData:/data/
+    depends_on:
+      - mongodb
 
   rabbitmq:
     container_name: rabbitmq  
     image: rabbitmq:3-management-alpine
-    networks:
-      - bookbuy
     ports:
       - 5672:5672
       - 15672:15672
-    volumes:
-      - rabbitmqdata:/data/
+  
+  auctionService:
+    container_name: auctionService
+    image: szymonprzybylski/auction-service:latest
+    build: 
+      context: .
+      dockerfile: src/AuctionService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__DefaultConnection=Server=postgres:5432; User Id=postgres; Password=postgres; Database=Auctions
+      - IdentityServiceUrl=http://identityService
+    ports:
+      - 7001:80
+    depends_on:
+      - postgres
+      - rabbitmq
 
-networks:
-  bookbuy:
-    driver: bridge
+  searchService:
+    container_name: searchService
+    image: szymonprzybylski/search-service:latest
+    build: 
+      context: .
+      dockerfile: src/SearchService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__MongoDbConnection=mongodb://admin:admin@mongodb
+      - AuctionServiceUrl=http://auctionService
+    ports:
+      - 7002:80
+    depends_on:
+      - mongodb
+      - rabbitmq
 
-volumes:
-  pgdata:
-  pgadmin-data:
-  mongodata:
-  mongoExpressData:
-  rabbitmqdata:  
+  identityService:
+    container_name: identityService
+    image: szymonprzybylski/identity-service:latest
+    build: 
+      context: .
+      dockerfile: src/IdentityService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=postgres:5432; User Id=postgres; Password=postgres; Database=Identity
+    ports:
+      - 5000:80
+    depends_on:
+      - postgres
+      - pgAdmin
+
+  gatewayService:
+    container_name: gatewayService
+    image: szymonprzybylski/gateway-service:latest
+    build: 
+      context: .
+      dockerfile: src/GatewayService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - 6001:80
