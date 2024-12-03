@@ -20,7 +20,7 @@ namespace IdentityService
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // just for development
+                // just for development - postman client
                 new Client
                 {
                     ClientId = "postman",
@@ -29,6 +29,19 @@ namespace IdentityService
                     RedirectUris = {"https://www.getpostman.com/funstuff/oauth2/callback"},
                     ClientSecrets = new[] {new Secret("NotASecret".Sha256())},
                     AllowedGrantTypes = {GrantType.ResourceOwnerPassword},
+                },
+                new Client
+                {
+                    ClientId = "clientApplication",
+                    ClientName = "clientApplication",
+                    AllowedScopes = {"openid", "profile", "auctionApplication" },
+                    RedirectUris = {"http://localhost:3000/api/auth/callback/id-server"},
+                    ClientSecrets = {new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    RequirePkce = false,
+                    AllowOfflineAccess = true,
+                    // just for development - monthly token
+                    AccessTokenLifetime = 3600*24*30
                 }
             };
     }

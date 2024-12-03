@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "Start Everything",
+    "Projects": [
+      {
+        "Path": "src\\AuctionService\\AuctionService.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "src\\SearchService\\SearchService.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "src\\IdentityService\\IdentityService.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "src\\GatewayService\\GatewayService.csproj",
+        "Action": "StartWithoutDebugging"
+      }
+    ]
+  }
+]
