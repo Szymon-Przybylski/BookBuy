@@ -7,6 +7,6 @@ An application project built with .Net and microservice architecture
 <br>	- Identity Service using Duende Identity Server and acting as identity provider
 <br>	- Gateway Service using Microsoft YARP to provide an entry point into the microservice network
 <br>	- (to be implemented) Client side app built with Next.js
-<br>	- (to be implemented) Dockerization of services
+<br>	- Dockerization of services
 <br>	- (to be implemented) CI/CD workflow using GitHub Actions
 <br>	- (to be implemented) Unit and integration tests
