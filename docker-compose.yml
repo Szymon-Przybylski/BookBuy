@@ -13,6 +13,7 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_DISABLE_POSTFIX=true
     ports:
       - 80:80
     depends_on:
@@ -50,7 +51,7 @@ services:
   
   auctionService:
     container_name: auctionService
-    image: szymonprzybylski/auction-service:latest
+    image: auction-service:latest
     build: 
       context: .
       dockerfile: src/AuctionService/Dockerfile
@@ -68,7 +69,7 @@ services:
 
   searchService:
     container_name: searchService
-    image: szymonprzybylski/search-service:latest
+    image: search-service:latest
     build: 
       context: .
       dockerfile: src/SearchService/Dockerfile
@@ -86,7 +87,7 @@ services:
 
   identityService:
     container_name: identityService
-    image: szymonprzybylski/identity-service:latest
+    image: identity-service:latest
     build: 
       context: .
       dockerfile: src/IdentityService/Dockerfile
@@ -102,7 +103,7 @@ services:
 
   gatewayService:
     container_name: gatewayService
-    image: szymonprzybylski/gateway-service:latest
+    image: gateway-service:latest
     build: 
       context: .
       dockerfile: src/GatewayService/Dockerfile
