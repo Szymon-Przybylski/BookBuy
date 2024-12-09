@@ -9,4 +9,4 @@ An application project built with .Net and microservice architecture
 <br>	- (to be implemented) Client side app built with Next.js
 <br>	- Dockerization of services
 <br>	- (to be implemented) CI/CD workflow using GitHub Actions
-<br>	- (to be implemented) Unit and integration tests
+<br>	- Unit and integration tests

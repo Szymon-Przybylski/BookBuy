@@ -12,6 +12,9 @@ COPY tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj tests/Auctio
 COPY tests/AuctionService.IntegrationTests/AuctionService.IntegrationTests.csproj tests/AuctionService.IntegrationTests/AuctionService.IntegrationTests.csproj
 
 COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.csproj
+
+COPY tests/SearchService.IntegrationTests/SearchService.IntegrationTests.csproj tests/SearchService.IntegrationTests/SearchService.IntegrationTests.csproj
+
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
 COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
 
