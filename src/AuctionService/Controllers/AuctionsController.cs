@@ -75,7 +75,7 @@ namespace AuctionService.Controllers
 
             auction.Item.Author = updateAuctionDto.Author ?? auction.Item.Author;
             auction.Item.Name = updateAuctionDto.Name ?? auction.Item.Name;
-            auction.Item.Year = (int)(updateAuctionDto.Year ?? updateAuctionDto.Year);
+            auction.Item.Year = (int)(updateAuctionDto.Year ?? auction.Item.Year);
 
             await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
 

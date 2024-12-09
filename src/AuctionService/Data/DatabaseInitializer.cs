@@ -25,7 +25,8 @@ namespace AuctionService.Data
 
             List<Auction> auctions = new List<Auction>()
             {
-                // Book 1
+
+            // Book 1
             new Auction
             {
                 Id = Guid.Parse("afbee524-5972-4075-8800-7d1f9d7b0a0c"),
@@ -57,7 +58,7 @@ namespace AuctionService.Data
                     ImageUrl = "https://cdn.prod.website-files.com/65469043b68c5cc835bcbbc5/6579b68d8a290d78c8b89d22_cover_splash_sm.jpg"
                 }
             },
-            // 3 Book 3
+            // Book 3
             new Auction
             {
                 Id = Guid.Parse("bbab4d5a-8565-48b1-9450-5ac2a5c4a654"),
