@@ -14,6 +14,6 @@
         public Status Status { get; set; }
         public Item Item { get; set; }
 
-
+        public bool HasReservePrice() => ReservePrice > 0;
     }
 }
