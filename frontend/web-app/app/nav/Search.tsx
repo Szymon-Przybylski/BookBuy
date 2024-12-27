@@ -1,26 +1,32 @@
 'use client'
 
 import { useParamsStore } from "@/hooks/useParamsStore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 export default function Search() {
 
+    const searchTerm = useParamsStore(state => state.searchTerm);
     const setParams = useParamsStore(state => state.setParams);
     const [value, setValue] = useState("");
 
-    function onChange(event: any) {
-        setValue(event.target.value);
-    }
+    useEffect(() => {
+        setValue(searchTerm);
+    }, [searchTerm])
 
+    function onChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setValue(event.target.value)
+    }
+    
     function search() {
-        setParams({searchTerm: value});
+        const trimmedValue = value.trim();
+        setParams({searchTerm: trimmedValue});
     }
 
     return (
         <div className="flex w-[50%] items-center border-2 rounded-full py-2 shadow-sm">
             <input 
-                onKeyDown={(event: any) => {
+                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
                     if (event.key === "Enter") search()
                 }}
                 value = {value}
