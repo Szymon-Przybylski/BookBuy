@@ -41,7 +41,8 @@ namespace IdentityService
                     RequirePkce = false,
                     AllowOfflineAccess = true,
                     // just for development - monthly token
-                    AccessTokenLifetime = 3600*24*30
+                    AccessTokenLifetime = 3600*24*30,
+                    AlwaysIncludeUserClaimsInIdToken = true,
                 }
             };
     }
