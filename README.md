@@ -1,12 +1,29 @@
 # BookBuy
 
 An application project built with .Net and microservice architecture
-<br>	- Auctions Service with PostgreSQL database handling CRUD operations
-<br>	- Search Service with MongoDB database handling search functionalities
-<br>	- (to be implemented) Bid Service handling bidding on auctions
-<br>	- Identity Service using Duende Identity Server and acting as identity provider
-<br>	- Gateway Service using Microsoft YARP to provide an entry point into the microservice network
-<br>	- (to be implemented) Client side app built with Next.js
-<br>	- Dockerization of services
-<br>	- (to be implemented) CI/CD workflow using GitHub Actions
-<br>	- Unit and integration tests
+
+- Auctions Service
+  - CRUD operations
+  - PostgreSQL database
+- Search Service
+  - MongoDB database
+  - search functionalities
+  - database sync with auctions service
+- (to be implemented) Bid Service handling bidding on auctions
+- Identity Service
+  - Duende Identity Server
+  - external identity provider
+- Gateway Service
+  - Microsoft YARP
+  - an entry point into the microservice network
+- Client side app
+  - built with Next.js
+  - using react hot toast for notifications
+  - using zustand for state management
+  - using Auth.js for authorization
+- Dockerization of services
+- (to be implemented) CI/CD workflow using GitHub Actions
+- Unit tests
+  - XUnit, Moq, AutoFixture
+- Integration tests
+  - WebMotions, TestContainers
