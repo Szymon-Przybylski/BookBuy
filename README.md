@@ -11,6 +11,7 @@ An application project built with .Net and microservice architecture
   - database sync with auctions service
 - (to be implemented) Biding Service handling bidding on auctions
   - placing bids on auctions
+  - background service for auction finished event
   - MongoDB database
 - Identity Service
   - Duende Identity Server

@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using MassTransit;
 using MongoDB.Entities;
+using SearchService.Entities;
 using SearchService.Models;
 
 namespace SearchService.Consumers
@@ -17,7 +18,8 @@ namespace SearchService.Consumers
                 auction.SoldAmount = (int)context.Message.SoldAmount;
             }
 
-            auction.Status = "Finished";
+            auction.Status = auction.SoldAmount > auction.ReservePrice
+                ? Status.Finished.ToString() : Status.FinishedReservedPriceNotMet.ToString();
 
             await auction.SaveAsync();
         }
