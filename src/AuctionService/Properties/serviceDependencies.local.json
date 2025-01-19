@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "postgresql1": {
-      "ignored": "true",
-      "type": "postgresql"
-    }
-  }
-}
