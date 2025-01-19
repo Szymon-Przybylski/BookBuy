@@ -9,7 +9,9 @@ An application project built with .Net and microservice architecture
   - MongoDB database
   - search functionalities
   - database sync with auctions service
-- (to be implemented) Bid Service handling bidding on auctions
+- (to be implemented) Biding Service handling bidding on auctions
+  - placing bids on auctions
+  - MongoDB database
 - Identity Service
   - Duende Identity Server
   - external identity provider
@@ -22,6 +24,11 @@ An application project built with .Net and microservice architecture
   - using zustand for state management
   - using Auth.js for authorization
 - Dockerization of services
+- Synchronous communication
+  - HTTP
+  - gRPC
+- Asynchronous communication
+  - RabbitMQ
 - (to be implemented) CI/CD workflow using GitHub Actions
 - Unit tests
   - XUnit, Moq, AutoFixture
