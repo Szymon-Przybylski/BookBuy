@@ -112,6 +112,26 @@ services:
       - auctionService
       - searchService
 
+  notificationService:
+    container_name: notificationService
+    image: notification-service:latest
+    build: 
+      context: .
+      dockerfile: src/NotificationService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+    ports:
+      - 7004:80
+    depends_on:
+      - rabbitmq
+      - auctionService
+      - searchService
+      - biddingService
+      - identityService
+      - gatewayService
+
   identityService:
     container_name: identityService
     image: identity-service:latest

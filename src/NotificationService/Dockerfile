@@ -28,9 +28,9 @@ COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 RUN dotnet restore BookBuy.sln
 
 # copy app folders
-COPY src/SearchService src/SearchService
+COPY src/NotificationService src/NotificationService
 COPY src/Contracts src/Contracts
-WORKDIR /app/src/SearchService
+WORKDIR /app/src/NotificationService
 
 RUN dotnet publish -c Release -o /app/src/out
 
@@ -38,4 +38,4 @@ RUN dotnet publish -c Release -o /app/src/out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "SearchService.dll" ]
+ENTRYPOINT [ "dotnet", "NotificationService.dll" ]
