@@ -21,3 +21,12 @@ export type Auction = {
     year: number
     imageUrl: string
 }
+
+export type Bid = {
+    id: string
+    auctionId: string
+    bidder: string
+    bidDate: string
+    bidAmount: number
+    bidStatus: string
+}
