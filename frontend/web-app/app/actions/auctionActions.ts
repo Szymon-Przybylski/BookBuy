@@ -42,3 +42,7 @@ export async function updateAuctionTest() {
 export async function getBidsForAuction(id: string): Promise<Bid[]> {
     return await fetchWrapper.get(`bids/${id}`);
 }
+
+export async function placeBidForAuction(auctionId: string, bidAmount: number) {
+    return await fetchWrapper.post(`bids?auctionId=${auctionId}&bidAmount=${bidAmount}`, {})
+}

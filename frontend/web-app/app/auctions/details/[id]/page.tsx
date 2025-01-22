@@ -1,4 +1,4 @@
-import { getBidsForAuction, getDetailedViewData } from "@/app/actions/auctionActions";
+import {getDetailedViewData } from "@/app/actions/auctionActions";
 import Heading from "@/app/components/Heading";
 import React from "react";
 import CountdownTimer from "../../CountdownTimer";
@@ -7,14 +7,13 @@ import DetailedSpecs from "./DetailedSpecs";
 import { getCurrentUser } from "@/app/actions/authActions";
 import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
-import BidItem from "./BidItem";
+import BidList from "./BidList";
 
 export default async function Details({ params }: { params: { id: string } }) {
     const resolvedParams = await Promise.resolve(params);
 
     const data = await getDetailedViewData(resolvedParams.id);
     const user = await getCurrentUser();
-    const bids = await getBidsForAuction(resolvedParams.id);
 
     return (
         <div>
@@ -39,12 +38,7 @@ export default async function Details({ params }: { params: { id: string } }) {
                 <div className="max-w-sm w-full bg-gray-200 rounded-lg overflow-hidden">
                     <BookImage imageUrl={data.imageUrl} name={data.name} author={data.author}/>
                 </div>
-                <div className="border-2 rounded-lg p-2 bg-gray-100 flex flex-col h-full">
-                    <Heading title="Bids" subtitle=""/>
-                    {bids.map(bid => (
-                        <BidItem key={bid.id} bid={bid}/>
-                    ))}
-                </div>
+                <BidList user={user} auction={data}/>
             </div>
             <div className="mt-3 grid grid-cols-1 rounded-lg">
                 <DetailedSpecs  auction={data}/>
