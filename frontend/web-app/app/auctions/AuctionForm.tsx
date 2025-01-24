@@ -14,6 +14,11 @@ type Props = {
     auction?: Auction
 }
 
+interface ApiError {
+    status: number;
+    message: string;
+}
+
 export default function AuctionForm({auction} : Props) {
 
     const router = useRouter();
@@ -54,8 +59,15 @@ export default function AuctionForm({auction} : Props) {
             }
             router.push(`/auctions/details/${id}`);
 
-        } catch (error: any) {
-            toast.error(error.status + " " + error.message);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else if ((error as ApiError).status !== undefined) {
+                const apiError = error as ApiError;
+                toast.error(apiError.status + " " + apiError.message);
+            }else {
+                toast.error("An unknown error occurred");
+            }
         }
     }
 

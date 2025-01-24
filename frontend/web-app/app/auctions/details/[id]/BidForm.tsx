@@ -15,7 +15,7 @@ type Props = {
 
 export default function BidForm({auctionId, currentHighestBid}: Props) {
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm();
+    const {register, handleSubmit, reset} = useForm();
     const addBid = useBidStore(state => state.addBid);
 
     function onSubmit(data: FieldValues) {

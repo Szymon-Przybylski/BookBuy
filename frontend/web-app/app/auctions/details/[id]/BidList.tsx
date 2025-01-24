@@ -38,12 +38,9 @@ export default function BidList({user, auction}: Props) {
     useEffect(() => {
         setOpen(openForBids);
         getBidsForAuction(auction.id)
-            .then((res: any) => {
-                if (res.error) {
-                   throw res.error;
-                }
+            .then((res: Bid[]) => {
                 setBids(res as Bid[]);
-            }).catch(err => {
+            }).catch((err: Error) => {
                 toast.error(err.message);
             }).finally(() => setLoading(false))
     }, [auction.id, openForBids, setBids, setLoading, setOpen]);

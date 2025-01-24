@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-const baseUrl = "http://localhost:6001/";
+const baseUrl = process.env.API_URL;
 
 async function getHeaders(): Promise<HeadersInit> {
     const session = await auth();
@@ -25,7 +25,7 @@ async function get(url: string) {
     return handleResponse(response);
 }
 
-async function post(url: string, body: {}) {
+async function post(url: string, body: object) {
     const requestOptions = {
         method: "POST",
         headers: await getHeaders(),
@@ -37,7 +37,7 @@ async function post(url: string, body: {}) {
     return handleResponse(response);
 }
 
-async function put(url: string, body: {}) {
+async function put(url: string, body: object) {
     const requestOptions = {
         method: "PUT",
         headers: await getHeaders(),
@@ -66,7 +66,7 @@ async function handleResponse(response: Response) {
     let data;
     try {
         data = JSON.parse(text);
-    } catch (error) {
+    } catch {
         data = text;
     }
 

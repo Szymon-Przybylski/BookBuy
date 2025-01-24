@@ -2,8 +2,19 @@
 
 import { FieldValues } from "react-hook-form";
 import { Auction, Bid, PagedResult } from "../types";
-import { fetchWrapper } from "@/lib/fetchWrapper";
+import { fetchWrapper } from "@/app/lib/fetchWrapper";
 import { revalidatePath } from "next/cache";
+
+interface AuctionUpdateResponse {
+    success: boolean;
+    message: string;
+    data?: {
+        id: string;
+        name: string;
+        author: string;
+        year: number;
+    };
+}
 
 export async function getData(query: string): Promise<PagedResult<Auction>> {
     
@@ -29,7 +40,7 @@ export async function deleteAuction(id: string) {
     return await fetchWrapper.del(`auctions/${id}`);
 }
 
-export async function updateAuctionTest() {
+export async function updateAuctionTest(): Promise<AuctionUpdateResponse> {
     const data = {
         name: "Name",
         author: "NewAuthor",
