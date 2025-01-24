@@ -141,6 +141,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
+      - IssuerUri=http://localhost:5000
+      - ClientApp=http://localhost:3000
       - ConnectionStrings__DefaultConnection=Server=postgres:5432; User Id=postgres; Password=postgres; Database=Identity
     ports:
       - 5000:80
@@ -159,3 +161,22 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 6001:80
+
+  webApp:
+    container_name: webApp
+    image: web-app:latest
+    build:
+      context: .
+      dockerfile: frontend/web-app/Dockerfile
+    volumes:
+      - /var/lib/web/data
+    ports:
+      - 3000:3000
+    environment:
+      - NEXTAUTH_SECRET="hV5asRHMxvwGfFW2+10SY+f11bYPiv9Qux9f8ypzqm8="
+      - AUTH_URL=http://localhost:3000
+      - AUTH_URL_INTERNAL=http://webApp:3000
+      - API_URL=http://gatewayService/
+      - ID_URL=http://localhost:5000
+      - ID_URL_INTERNAL=http://identityService
+      - NOTIFICATION_URL=http://localhost:6001/notifications

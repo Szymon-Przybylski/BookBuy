@@ -17,7 +17,7 @@ namespace IdentityService
                 new ApiScope("auctionApplication", "Auction application - full access"),
             };
 
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients(IConfiguration configuration) =>
             new Client[]
             {
                 // just for development - postman client
@@ -35,7 +35,7 @@ namespace IdentityService
                     ClientId = "clientApplication",
                     ClientName = "clientApplication",
                     AllowedScopes = {"openid", "profile", "auctionApplication" },
-                    RedirectUris = {"http://localhost:3000/api/auth/callback/id-server"},
+                    RedirectUris = {configuration["ClientApp"] + "/api/auth/callback/id-server"},
                     ClientSecrets = {new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RequirePkce = false,
