@@ -9,7 +9,8 @@ import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
 import BidList from "./BidList";
 
-export default async function Details({ params }: { params: { id: string } }) {
+export default async function Details(props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const resolvedParams = await Promise.resolve(params);
 
     const data = await getDetailedViewData(resolvedParams.id);

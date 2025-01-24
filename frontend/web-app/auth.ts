@@ -32,8 +32,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({session, token}) {
       if (token) {
-        session.user.username = token.username;
-        session.accessToken = token.accessToken;
+        session.user.username = token.username as string;
+        session.accessToken = token.accessToken as string;
       }
       return session;
     },
