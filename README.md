@@ -44,7 +44,14 @@
   - gRPC example for bidding <-> auctions communication
 - **Asynchronous communication**
   - RabbitMQ as message broker
-- **(to be implemented) CI/CD workflow using GitHub Actions**
+- **Nginx ingress**
+  - ingress managing external access to the services
+  - Make sure to add the following line to the hosts file:
+
+    ```plaintext
+    127.0.0.1 id.bookbuy.local app.bookbuy.local api.bookbuy.local
+    ```
+
 - **Unit tests**
   - using mainly XUnit, Moq, AutoFixture
 - **Integration tests**
